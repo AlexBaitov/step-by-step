@@ -44,8 +44,10 @@ func mw(a int) router.Handle {
 }
 
 func mw2(a int, h router.Handle) router.Handle {
-
-	return h
+	return func(c *router.Control) {
+		c.Set(router.Param{Key:":num",Value:fmt.Sprint(a)})
+		h(c)
+	}
 }
 func abc(c *router.Control) {
 	fmt.Fprintf(c.Writer, "a = %v\n", c.Get(":num"))

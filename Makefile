@@ -3,3 +3,6 @@ build:
 
 docker-build:
 	docker build -t sbs .
+
+docker-run:
+	docker run --rm -p8000:8000 sbs:latest

@@ -27,6 +27,7 @@ func main() {
 	r.GET("/home", home)
 	r.GET("/mw", mw(5))
 	r.GET("/mw2", mw2(5, abc))
+	r.GET("/abc/:num", abc)
 
 	r.Listen(":"+port)
 }
@@ -47,7 +48,7 @@ func mw2(a int, h router.Handle) router.Handle {
 	return h
 }
 func abc(c *router.Control) {
-	fmt.Fprintf(c.Writer, "a = %v\n", 6)
+	fmt.Fprintf(c.Writer, "a = %v\n", c.Get(":num"))
 }
 
 

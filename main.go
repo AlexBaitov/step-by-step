@@ -18,12 +18,17 @@ func main() {
 
 	logger.Print("asd")
 
+	port := os.Getenv("SERVICE_PORT")
+
+	if len(port) == 0 {
+		logger.Fatal("Порт не задан")
+	}
 	r := router.New()
 	r.GET("/home", home)
 	r.GET("/mw", mw(5))
 	r.GET("/mw2", mw2(5, abc))
 
-	r.Listen(":8000")
+	r.Listen(":"+port)
 }
 
 func home(c *router.Control) {

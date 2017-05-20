@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/takama/router"
 	"net/http"
+	"os"
+	"log"
 )
 
 // Run server: go run main.go
@@ -11,6 +13,10 @@ import (
 // - curl http://localhost:8000
 // - curl http://localhost:8000/test-some-path
 func main() {
+
+	logger := log.New(os.Stdout, "[step-by-step]", log.LstdFlags)
+
+	logger.Print("asd")
 
 	r := router.New()
 	r.GET("/home", home)

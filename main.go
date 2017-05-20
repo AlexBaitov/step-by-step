@@ -28,6 +28,8 @@ func main() {
 	r.GET("/mw", mw(5))
 	r.GET("/mw2", mw2(5, abc))
 	r.GET("/abc/:num", abc)
+	r.GET("/check/:num", mwCheckQuery(abc))
+	r.GET("/checkmw2/:num", mwCheckQuery(mw2(5, abc)))
 
 	r.Listen(":"+port)
 }
@@ -53,6 +55,14 @@ func abc(c *router.Control) {
 	fmt.Fprintf(c.Writer, "a = %v\n", c.Get(":num"))
 }
 
+func mwCheckQuery(h router.Handle) router.Handle {
+	return func(c *router.Control) {
+		if len(c.Request.URL.Query().Get("apikey")) == 0 {
+			c.Code(400).Body("no query parameter apikey found")
+		}
+		h(c)
+	}
+}
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
